@@ -26,4 +26,38 @@ def api_all():
 
     return jsonify(all_songs)
 
+@app.route('/songs', methods=['GET'])
+def api_filter():
+    query_parameters = request.args
+
+    artist = query_parameters.get('artist')
+    song = query_parameters.get('song')
+    genre = query_parameters.get('genre')
+
+    query = "SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id WHERE"
+
+    if artist:
+        query += ' artist=' + "'" + str(artist) + "'" + ' AND'
+    
+    if song:
+        query += ' itle=' + "'" + str(song) + "'" + ' AND'
+    
+    if genre:
+        query += ' name=' + "'" + str(genre) + "'" + ' AND'
+    
+    if not (id or published or author):
+        return page_not_found(404)
+
+    query = query[:-4] + ';'
+
+    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
+    cnx.row_factory = make_dicts
+    cur = cnx.cursor()
+
+    print(query)
+
+    results = cur.execute(query).fetchall()
+
+    return jsonify(results)
+
 app.run()
