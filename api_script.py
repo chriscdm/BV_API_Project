@@ -33,21 +33,27 @@ def api_filter():
     artist = query_parameters.get('artist')
     song = query_parameters.get('song')
     genre = query_parameters.get('genre')
+    min_length = query_parameters.get('min_length')
+    max_length = query_parameters.get('max_length')
 
-    query = "SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id WHERE"
+    query = 'SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id WHERE'
 
     if artist:
         query += ' artist=' + "'" + str(artist) + "'" + ' AND'
     
     if song:
-        query += ' itle=' + "'" + str(song) + "'" + ' AND'
+        query += ' title=' + "'" + str(song) + "'" + ' AND'
     
     if genre:
         query += ' name=' + "'" + str(genre) + "'" + ' AND'
-    
-    if not (id or published or author):
-        return page_not_found(404)
 
+    if min_length:
+        query += ' duration>=' + str(min_length) + ' AND'
+
+    if max_length:
+        query += ' duration<=' + str(max_length) + ' AND'
+
+    
     query = query[:-4] + ';'
 
     cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
