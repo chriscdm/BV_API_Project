@@ -12,7 +12,6 @@ app.config["DEBUG"] = True
 def home():
     return "<h1>Home</h1>"
 
-
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
@@ -76,18 +75,28 @@ def api_filter():
                 max_length = convert_time(max_length)
         query += ' duration<=' + str(max_length) + ' AND'
 
-    print(type(min_length))
-
     query = query[:-4] + ';'
 
     cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
-
-    print(query)
-
     results = cur.execute(query).fetchall()
 
     return jsonify(results)
+
+@app.route('/genres', methods=['GET'])
+def all_genres():
+    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
+    cnx.row_factory = make_dicts
+    cur = cnx.cursor()
+    genres = cur.execute('SELECT songs.genre, name, sum(duration), count(*) FROM songs INNER JOIN genres on genres.id = songs.genre GROUP BY genres.name ORDER BY COUNT(genres.id) desc;').fetchall()
+    
+    for i in genres:
+        i['genre_count'] = i.pop('count(*)')
+        i['genre_id'] = i.pop('genre')
+        i['genre_name'] = i.pop('name')
+        i['aggregated_duration(seconds)'] = i.pop('sum(duration)')
+
+    return jsonify(genres)
 
 app.run()
