@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify, g
-#from flask_sqlalchemy import SQLAlchemy
-#from flask_marshmallow import Marshmallow
 import sqlite3
-#import os
+import os
+import sys
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -18,13 +17,14 @@ def make_dicts(cursor, row):
 
 @app.route('/all_songs', methods=['GET'])
 def api_all():
-    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
+    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/data/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
     all_songs = cur.execute('SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id;').fetchall()
 
     for i in all_songs:
         i['genre_name'] = i.pop('name')
+        i['duration(seconds)'] = i.pop('duration')
 
     return jsonify(all_songs)
 
@@ -80,19 +80,20 @@ def api_filter():
 
     query = query[:-4] + ';'
 
-    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
+    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/data/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
     results = cur.execute(query).fetchall()
 
     for i in results:
         i['genre_name'] = i.pop('name')
+        i['duration(seconds)'] = i.pop('duration')
 
     return jsonify(results)
 
 @app.route('/genres', methods=['GET'])
 def all_genres():
-    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
+    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/data/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
     genres = cur.execute('SELECT songs.genre, name, sum(duration), count(*) FROM songs INNER JOIN genres on genres.id = songs.genre GROUP BY genres.name ORDER BY COUNT(genres.id) desc;').fetchall()
@@ -105,4 +106,8 @@ def all_genres():
 
     return jsonify(genres)
 
-app.run()
+if __name__ == '__main__':
+    if os.environ.get('PORT') is not None:
+        app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT'))
+    else:
+        app.run(debug=True, host='0.0.0.0')

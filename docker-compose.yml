@@ -1,0 +1,10 @@
+version: '2'
+services:
+    web:
+        build: .
+        ports:
+            - "5000:5000"
+        volumes:
+            - .:/Users/christophermarker/Documents/BV_API_Project
+        environment:
+            - PORT:5000
