@@ -47,13 +47,42 @@ def api_filter():
     if genre:
         query += ' name=' + "'" + str(genre) + "'" + ' AND'
 
+    def convert_time(i):
+        units = i.split(':')
+        units = [float(i) for i in units]
+
+        if len(units) == 2:
+            seconds = (units[0] * 60) + units[1]
+        if len(units) == 3:
+            seconds = (units[0] * 3600) + (units[1] * 60) + units[2]
+        
+        return seconds
+
     if min_length:
+        try:
+            if (type(int(min_length)) == int) == True or (type(int(min_length)) == float) == True:
+                pass
+        except:
+            print('donkey')
+            if len(min_length.split(':')) >= 2 and len(min_length.split(':')) <= 3:
+                min_length = convert_time(min_length)
+            else:
+                pass
         query += ' duration>=' + str(min_length) + ' AND'
 
     if max_length:
+        try:
+            if (type(int(max_length)) == int) == True or (type(int(max_length)) == float) == True:
+                pass
+        except:
+            if len(max_length.split(':')) >= 2 and len(max_length.split(':')) <= 3:
+                max_length = convert_time(max_length)
+            else:
+                pass
         query += ' duration<=' + str(max_length) + ' AND'
 
-    
+    print(type(min_length))
+
     query = query[:-4] + ';'
 
     cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/bvde.db')
