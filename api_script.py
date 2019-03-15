@@ -60,25 +60,20 @@ def api_filter():
 
     if min_length:
         try:
-            if (type(int(min_length)) == int) == True or (type(int(min_length)) == float) == True:
-                pass
+            int(min_length)
+            float(min_length)
         except:
-            print('donkey')
-            if len(min_length.split(':')) >= 2 and len(min_length.split(':')) <= 3:
+            if len(min_length.split(':')) == 2 or len(min_length.split(':')) == 3:
                 min_length = convert_time(min_length)
-            else:
-                pass
         query += ' duration>=' + str(min_length) + ' AND'
 
     if max_length:
         try:
-            if (type(int(max_length)) == int) == True or (type(int(max_length)) == float) == True:
-                pass
+            int(max_length)
+            float(max_length)
         except:
-            if len(max_length.split(':')) >= 2 and len(max_length.split(':')) <= 3:
+            if len(max_length.split(':')) == 2 or len(max_length.split(':')) == 3:
                 max_length = convert_time(max_length)
-            else:
-                pass
         query += ' duration<=' + str(max_length) + ' AND'
 
     print(type(min_length))
