@@ -23,6 +23,9 @@ def api_all():
     cur = cnx.cursor()
     all_songs = cur.execute('SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id;').fetchall()
 
+    for i in all_songs:
+        i['genre_name'] = i.pop('name')
+
     return jsonify(all_songs)
 
 @app.route('/songs', methods=['GET'])
@@ -81,6 +84,9 @@ def api_filter():
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
     results = cur.execute(query).fetchall()
+
+    for i in results:
+        i['genre_name'] = i.pop('name')
 
     return jsonify(results)
 
