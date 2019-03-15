@@ -4,12 +4,11 @@ import os
 import sys
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
-
 
 @app.route('/', methods=['GET'])
 def home():
-    return "<h1>Home</h1>"
+
+    return "<h1>Basic Documentation</h1><h3>An API to return data regarding BV's song database in JSON format</h3><h3>Sample requests:</h3><h3>Request all songs</h3><p>http://127.0.0.1:5000/all_songs</p><h3>Request genre information</h3><p>http://127.0.0.1:5000/genres</p><h3>Search for artist, song, genre, min duration, or max duration</h3><p>http://127.0.0.1:5000/songs?artist=Bobby+Darin</p><p>http://127.0.0.1:5000/songs?song=Physical</p><p>http://127.0.0.1:5000/songs?genre=Pop </p><p>http://127.0.0.1:5000/songs?min_length=194&max_length=196</p>"
 
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
