@@ -17,7 +17,7 @@ RUN pip install -r ./requirements.txt
 ENTRYPOINT ["python"]
 CMD ["api_script.py"]
 ```
-Change the paths for COPY and WORKDIR to the correct path for where you cloned the repository.
+Change the paths for ```COPY``` and ```WORKDIR``` to the correct path for where you cloned the repository.
 
 Next, open ```docker-compose.yml``` and you should see the following:
 
@@ -34,7 +34,7 @@ services:
             - PORT:5000
 ```
 
-Again, change the path under volumes: to match where you have the repository saved.
+Again, change the path under ```volumes:``` to match where you have the repository saved.
 
 Once these changes have been made, navigate to the BV_API_Project in your terminal and run and:
 
