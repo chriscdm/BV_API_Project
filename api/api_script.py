@@ -17,7 +17,7 @@ def make_dicts(cursor, row):
 
 @app.route('/all_songs', methods=['GET'])
 def api_all():
-    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/data/bvde.db')
+    cnx = sqlite3.connect('../data/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
     all_songs = cur.execute('SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id;').fetchall()
@@ -80,7 +80,7 @@ def api_filter():
 
     query = query[:-4] + ';'
 
-    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/data/bvde.db')
+    cnx = sqlite3.connect('../data/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
     results = cur.execute(query).fetchall()
@@ -93,13 +93,13 @@ def api_filter():
 
 @app.route('/genres', methods=['GET'])
 def all_genres():
-    cnx = sqlite3.connect('/Users/christophermarker/Documents/BV_API_Project/data/bvde.db')
+    cnx = sqlite3.connect('../data/bvde.db')
     cnx.row_factory = make_dicts
     cur = cnx.cursor()
-    genres = cur.execute('SELECT songs.genre, name, sum(duration), count(*) FROM songs INNER JOIN genres on genres.id = songs.genre GROUP BY genres.name ORDER BY COUNT(genres.id) desc;').fetchall()
+    genres = cur.execute('SELECT name, songs.genre, sum(duration), count(songs.title) FROM genres LEFT JOIN songs on songs.genre = genres.id GROUP BY genres.name ORDER BY genres.id asc;').fetchall()
     
     for i in genres:
-        i['genre_count'] = i.pop('count(*)')
+        i['genre_count'] = i.pop('count(songs.title)')
         i['genre_id'] = i.pop('genre')
         i['genre_name'] = i.pop('name')
         i['aggregated_duration(seconds)'] = i.pop('sum(duration)')
