@@ -41,13 +41,13 @@ def api_filter():
     query = 'SELECT title,artist,name,duration FROM songs INNER JOIN genres ON songs.genre=genres.id WHERE'
 
     if artist:
-        query += ' artist=' + "'" + str(artist) + "'" + ' AND'
+        query += ' artist=' + "'" + str(artist) + "'" + '  COLLATE NOCASE AND'
     
     if song:
-        query += ' title=' + "'" + str(song) + "'" + ' AND'
+        query += ' title=' + "'" + str(song) + "'" + '  COLLATE NOCASE AND'
     
     if genre:
-        query += ' name=' + "'" + str(genre) + "'" + ' AND'
+        query += ' name=' + "'" + str(genre) + "'" + '  COLLATE NOCASE AND'
 
     def convert_time(i):
         units = i.split(':')
@@ -67,7 +67,7 @@ def api_filter():
         except:
             if len(min_length.split(':')) == 2 or len(min_length.split(':')) == 3:
                 min_length = convert_time(min_length)
-        query += ' duration>=' + str(min_length) + ' AND'
+        query += ' duration>=' + str(min_length) + '  COLLATE NOCASE AND'
 
     if max_length:
         try:
@@ -76,7 +76,7 @@ def api_filter():
         except:
             if len(max_length.split(':')) == 2 or len(max_length.split(':')) == 3:
                 max_length = convert_time(max_length)
-        query += ' duration<=' + str(max_length) + ' AND'
+        query += ' duration<=' + str(max_length) + '  COLLATE NOCASE AND'
 
     query = query[:-4] + ';'
 
