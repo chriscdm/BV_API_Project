@@ -5,6 +5,6 @@ services:
         ports:
             - "5000:5000"
         volumes:
-            - .:/Users/christophermarker/Documents/BV_API_Project
+            - ./:/src
         environment:
             - PORT:5000
