@@ -8,11 +8,7 @@ Once Docker and Docker Compose are installed, you can clone this repository (ass
 
 ```
 docker-compose build
-```
 
-and then
-
-```
 docker-compose up
 ```
 
