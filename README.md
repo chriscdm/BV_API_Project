@@ -1,5 +1,5 @@
 # BV_API_Project
-The purpose of this project is to create an API which will deliver song data in JSON format. My initial plan was to create a flask app and host it using Heroku or another similar service but after discussing the prompt with Scott Wagner I decided to create a Docker image to run the app with.
+The purpose of this project is to create an API which will deliver song data in JSON format. I used flask app and included Docker functionality create an image to run the app.
 
 # Set up instructions:
 To run the Docker file you will need to install [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) on your system.
@@ -12,7 +12,7 @@ docker-compose build
 docker-compose up
 ```
 
-This command will create a  container with all necessary dependencies and run the API inside of it. The app will run on localhost port 5000.
+These commands will create a  container with all necessary dependencies and run the API inside of it. The app will run on localhost port 5000.
 
 At this point the API can be called using any language or utility that can issue HTTP GET requests, in the ```test_notebook.ipynb``` file I show several examples of this using the requests library in Python.  Additionally, you can open ```http://127.0.0.1:5000/``` in a web browser to display some basic information about the API.
 
@@ -34,6 +34,7 @@ The response will include a JSON object with data on all 9 genres. The data will
 http://127.0.0.1:5000/songs?artist=Bobby+Darin
 http://127.0.0.1:5000/songs?artist=Beatles&genre=Classic+Rock
 http://127.0.0.1:5000/songs?min_length=194&max_length=196
+http://127.0.0.1:5000/songs?min_length=00:03:14&max_length=03:16
 ```
 The response will include a JSON object with songs, artist, genre name, and duration data.
 
