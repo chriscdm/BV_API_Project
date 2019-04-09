@@ -14,6 +14,8 @@ docker-compose up
 
 These commands will create a  container with all necessary dependencies and run the API inside of it. The app will run on localhost port 5000.
 
+# API Documentation:
+
 At this point the API can be called using any language or utility that can issue HTTP GET requests, in the ```test_notebook.ipynb``` file I show several examples of this using the requests library in Python.  Additionally, you can open ```http://127.0.0.1:5000/``` in a web browser to display some basic information about the API.
 
 The API has several functions:
