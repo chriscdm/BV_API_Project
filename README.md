@@ -4,39 +4,13 @@ The purpose of this project is to create an API which will deliver song data in 
 # Set up instructions:
 To run the Docker file you will need to install [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) on your system.
 
-Once Docker and Docker Compose are installed, you can clone this repository (assuming you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)) and change several directory paths.
-
-Open ```Dockerfile``` and you should see this:
+Once Docker and Docker Compose are installed, you can clone this repository (assuming you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)), navigate to the BV_API_Project in your terminal, and run  the following (may require root privileges):
 
 ```
-FROM python:3.7.2
-MAINTAINER Chris Marker "chris.d.marker@gmail.com"
-COPY . /Users/christophermarker/Documents/BV_API_Project
-WORKDIR /Users/christophermarker/Documents/BV_API_Project/api
-RUN pip install -r ./requirements.txt
-ENTRYPOINT ["python"]
-CMD ["api_script.py"]
-```
-Change the paths for ```COPY``` and ```WORKDIR``` to the correct path for where you cloned the repository.
-
-Next, open ```docker-compose.yml``` and you should see the following:
-
-```
-version: '2'
-services:
-    web:
-        build: .
-        ports:
-            - "5000:5000"
-        volumes:
-            - .:/Users/christophermarker/Documents/BV_API_Project
-        environment:
-            - PORT:5000
+docker-compose build
 ```
 
-Again, change the path under ```volumes:``` to match where you have the repository saved.
-
-Once these changes have been made, navigate to the BV_API_Project in your terminal and run  the following (may require root privileges):
+and then
 
 ```
 docker-compose up
