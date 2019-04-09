@@ -1,5 +1,5 @@
 # BV_API_Project
-The purpose of this project is to create an API which will deliver song data in JSON format. I used flask app and included Docker functionality create an image to run the app.
+The purpose of this project is to create an API which will deliver song data in JSON format. I used flask to create the app and included Docker functionality create an image to run the app.
 
 # Set up instructions:
 To run the Docker file you will need to install [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) on your system.
