@@ -38,10 +38,4 @@ http://127.0.0.1:5000/songs?min_length=00:03:14&max_length=03:16
 ```
 The response will include a JSON object with songs, artist, genre name, and duration data.
 
-# Additional Questions
-## 1. Are there any suggestions you could make about the structure of our data?
-For the purposes of this project, merging the songs and genres table could reduce some overhead by eliminating the need for joins. Additionally, the length of the varchar could be reduced for the artist and song fields.
-## 2. What fields would you index in these tables?
-I would index the fields being queried in the API - songs.artist, songs.songs, songs.duration, and genres.name. Indexing these fields would decrease the time needed to perform the queries.
-
 
